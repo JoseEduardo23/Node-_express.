@@ -78,12 +78,60 @@ app.get('/integrantes/:id', (req, res) => {
     }
 });
 
-// Ruta de productos (solo muestra un mensaje simple)
+// Ruta de productos (muestra productos "quemados" en HTML)
 app.get('/products', (req, res) => {
-    res.send(`
-        <h1>Catálogo de productos</h1>
-        <p>Bienvenidos</p>
-    `);
+    // Productos "quemados" definidos en el código
+    const productos = [
+        { id: 1, nombre: 'Producto 1', precio: 100 },
+        { id: 2, nombre: 'Producto 2', precio: 200 },
+        { id: 3, nombre: 'Producto 3', precio: 300 }
+    ];
+
+    // Generar el HTML de forma dinámica
+    let html = `
+        <html>
+            <head>
+                <title>Catálogo de productos</title>
+                <style>
+                    body {
+                        font-family: Arial, sans-serif;
+                        padding: 20px;
+                    }
+                    .product {
+                        border: 1px solid #ddd;
+                        padding: 10px;
+                        margin: 10px 0;
+                        border-radius: 5px;
+                    }
+                    .product h2 {
+                        margin: 0;
+                    }
+                    .product p {
+                        margin: 5px 0;
+                    }
+                </style>
+            </head>
+            <body>
+                <h1>Catálogo de Productos</h1>
+    `;
+
+    // Añadir los productos al HTML
+    productos.forEach(producto => {
+        html += `
+            <div class="product">
+                <h2>${producto.nombre}</h2>
+                <p>Precio: $${producto.precio}</p>
+            </div>
+        `;
+    });
+
+    html += `
+            </body>
+        </html>
+    `;
+
+    // Enviar el HTML como respuesta
+    res.send(html);
 });
 
 // Iniciar el servidor en el puerto especificado
